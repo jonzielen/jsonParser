@@ -12,7 +12,7 @@ export class AppComponent {
   jsonDataDisplay;
   jsonData;
   inputArray: Array<HTMLInputElement>;
-  foundResults: Array<number> = [];
+  foundResults: Array<number | string> = [];
 
   constructor(private renderer2: Renderer2, private elementRef: ElementRef) { }
 
@@ -34,14 +34,17 @@ export class AppComponent {
     this.inputArray = Array.from(this.textInputs.nativeElement.children);
 
     this.inputArray.map(elem => {
+      var searchVal = "Not Found";
+
       for (const key in this.jsonData) {
         if (Object.prototype.hasOwnProperty.call(this.jsonData, key)) {
           const jsonValue = this.jsonData[key];
-          if (jsonValue === elem.value) {
-            this.foundResults.push(+key);
-          }
+          if (jsonValue === elem.value) searchVal = key;
         }
       }
+
+      this.foundResults.push(searchVal);
+
     });
   }
 }
